@@ -1,0 +1,131 @@
+Maamytalieva Luiza 
+
+1) Что такое Promise и зачем они нужны?
+
+Чтобы не было "Callback hell" придумали такое понятие как "Promise".
+Promise принимает функцию, а функция принимает два параметра: 1)resolve 2)reject
+Resolve обычно вызывается если в коде нету ошибок. А если где-то есть ошибка, то вызывается reject.
+Promise - это объект, означает конец или сбой асинхронной операции.
+
+const promise = new Promise(function(resolve, reject) {
+	функция будет вызвана автоматически
+	А когда завершится — нужно вызвать либо	
+	resolve() если ошибок нет.
+	либо
+	reject() при ошибке
+}) 
+дальше инициализируем:
+promise.then(() => {}) - это для resolve.
+promise.catch(() => {}) - это для reject.
+promise.finally(() => {}) - выполнится в любом случае, когда promise завершится: успешно или с ошибкой.
+
+
+2) Конструкция async\await?
+async - делает функцию асинхронной.Связан с promise и на выходе всегда получаем promise.
+await -дожидается выполнения promise. Если не будет await, быстро прочитается код и вызовет undefined т.к код асинхронный.
+const myFn = async () => {
+  // await ...
+}
+Пример:
+const sum = (x,y) => {
+	return new Promise(function(resolve){
+		const result = x + y;
+		resolve(result)
+	})
+}
+const res = async () => {
+	const num = await sum(8, 8)
+	console.log('Сумма:', num);
+}
+res()
+
+
+3) Контекст js в классе this.
+
+this обращается к экземпляру нового объекта.(будущего) 
+class People {
+	constructor(name,age){
+		this.name = name
+		this.age = age
+	}
+}
+const person = new People("John",20)
+console.log(person);
+
+
+4) Замыкание в js.
+
+Замыкание - это функция, внутри которой есть ссылки на переменные из внешней области видимости.
+Чтобы создать замыкание нужно создать функцию внутри функции, получить доступ к переменным, обернутым внутри вложенной функции, и вернуть вложенную функцию наружу. 
+Если возвращенная функция останется доступной, произойдет "замыкание".
+Пример:
+function numFunc (){
+	let num = 8;
+	return function(){
+		alert(num)
+	}
+}
+
+let n = numFunc();
+n();
+
+function adder(number) {
+	return function (anotherNumber) {
+		return number + anotherNumber;
+	};
+}
+
+const add2 = adder(2);
+const add10 = adder(10);
+
+console.log(add2(10));
+console.log(add10(15));
+
+
+5) Зачем нужны стрелочные функции, разница между функциями в js?
+По идее есть три вида функции: function expression, function declaration, arrow function.
+function expression - функция, созданная внутри другого выражения или синтаксической конструкции.
+const exp = function(){
+	console.log('expression');
+}
+exp()
+Пример:
+const min = function(a, b) {
+    if (a < b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+console.log(min(38, 45));
+
+function declaration - функция объявленная в основном потоке кода. У него есть hoisting, т.е его можно объявить до выполнения кода.
+dec()
+function dec(){
+	console.log('decloration');
+}
+
+Пример:
+console.log(min(38, 45));
+function min(a, b) {
+    if (a < b) {
+        return a;
+    }else {
+        return b;
+    }
+}
+
+Arrow function - Есть два преимущества: 1) короткий синтаксис, 2) подход к работе со значением this выглядит более понятней.
+const arrow = () => {
+	console.log('arrow');
+}
+arrow()
+Пример:
+const min = (a, b) => {
+    if (a < b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+console.log(min(38, 45));
